@@ -39,7 +39,7 @@ public class Prioridad extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Prioridad ");
+        setTitle("Tickets");
 
         LBLbuscarticket.setText("Buscar ticket:");
 

@@ -18,7 +18,7 @@ public class Conexion {
                     
                 // como sabras aqui va la ruta de la BD pero como tu sabes mejor como es la vaina te pido porfa que lo coloque  o me dices no c
                 //
-                "jdbc:mysql://localhost:3306/Cafecalle4tadavid","root","16102000");
+                "jdbc:mysql://localhost:3306/teknosia_db","root","16102000");
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Error en la conexión: " + e.getMessage());
             con = null;
