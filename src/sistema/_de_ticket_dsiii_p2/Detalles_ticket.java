@@ -72,6 +72,8 @@ public class Detalles_ticket extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         TAcomentario = new javax.swing.JTextArea();
         BTNresuelto = new javax.swing.JButton();
+        JCBprioridad = new javax.swing.JComboBox<>();
+        JCBestado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -126,6 +128,10 @@ public class Detalles_ticket extends javax.swing.JDialog {
 
         BTNresuelto.setText("Resuelto");
 
+        JCBprioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna", "alta", "media", "baja" }));
+
+        JCBestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nuevo", "en proceso", "resuelto" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,8 +168,11 @@ public class Detalles_ticket extends javax.swing.JDialog {
                                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(LBLdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 28, Short.MAX_VALUE)))
-                                .addGap(110, 110, 110))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(JCBprioridad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(JCBestado, 0, 1, Short.MAX_VALUE))
+                                .addGap(164, 164, 164))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(BTNAgregar_comentario)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -196,11 +205,13 @@ public class Detalles_ticket extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(LBLprioridad))
+                    .addComponent(LBLprioridad)
+                    .addComponent(JCBprioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(LBLestado))
+                    .addComponent(LBLestado)
+                    .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -271,6 +282,8 @@ public class Detalles_ticket extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNAgregar_comentario;
     private javax.swing.JButton BTNresuelto;
+    private javax.swing.JComboBox<String> JCBestado;
+    private javax.swing.JComboBox<String> JCBprioridad;
     private javax.swing.JLabel LBL3;
     private javax.swing.JLabel LBLdescripcion;
     private javax.swing.JLabel LBLestado;

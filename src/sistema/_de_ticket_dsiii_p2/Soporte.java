@@ -12,15 +12,18 @@ import javax.swing.JPanel;
  *
  * @author antho
  */
+
 public class Soporte extends javax.swing.JFrame {
+private String idTecnico;
 
     /**
      * Creates new form Soporte
      */
-    public Soporte() {
+ 
+        public Soporte(String idTecnico) {
         initComponents();
-  
-        
+        this.idTecnico = idTecnico;
+        setTitle("Panel Técnico - " + idTecnico); // opcional
     }
 
    
@@ -37,6 +40,7 @@ public class Soporte extends javax.swing.JFrame {
         JMIprioridadalta = new javax.swing.JMenuItem();
         JMIprioridadmedia = new javax.swing.JMenuItem();
         JMIprioridadbaja = new javax.swing.JMenuItem();
+        JMItodos = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
@@ -109,6 +113,14 @@ public class Soporte extends javax.swing.JFrame {
         });
         jMenu5.add(JMIprioridadbaja);
 
+        JMItodos.setText("Todos los tickets");
+        JMItodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMItodosActionPerformed(evt);
+            }
+        });
+        jMenu5.add(JMItodos);
+
         jMenuBar1.add(jMenu5);
 
         jMenu6.setText("Ayuda");
@@ -140,73 +152,75 @@ public class Soporte extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu5ActionPerformed
 
     private void JMIticketsasignadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIticketsasignadosActionPerformed
-      Prioridad verventanaticketsasignados = new Prioridad();
+      Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets Asignados");
     verventanaticketsasignados.setTitle("Tickets Asignados"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIticketsasignadosActionPerformed
 
     private void JMIprioridadaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadaltaActionPerformed
-       Prioridad verventanaticketsasignados = new Prioridad();
+       Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Alta Prioridad");
     verventanaticketsasignados.setTitle("Tickets de Alta Prioridad"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadaltaActionPerformed
 
     private void JMIprioridadmediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadmediaActionPerformed
-          Prioridad verventanaticketsasignados = new Prioridad();
+          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Media");
     verventanaticketsasignados.setTitle("Tickets de Prioridad Media"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadmediaActionPerformed
 
     private void JMIprioridadbajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadbajaActionPerformed
-            Prioridad verventanaticketsasignados = new Prioridad();
+            Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Baja");
     verventanaticketsasignados.setTitle("Tickets de Prioridad Baja"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadbajaActionPerformed
 
+    private void JMItodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMItodosActionPerformed
+          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
+    verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
+    escritorio.add(verventanaticketsasignados);
+    verventanaticketsasignados.setVisible(true);
+        
+        
+        
+    }//GEN-LAST:event_JMItodosActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+public static void main(String args[]) {
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Soporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Soporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Soporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Soporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Soporte().setVisible(true);
-            }
-        });
+    } catch (Exception ex) {
+        java.util.logging.Logger.getLogger(Soporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+
+    // Prueba con una cédula válida como idTecnico (debes tenerlo en tu BD)
+    String idTecnico = "123456789"; // ← Usa aquí una cédula existente en tu tabla usuarios
+
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new Soporte(idTecnico).setVisible(true);
+        }
+    });
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem JMIprioridadalta;
     private javax.swing.JMenuItem JMIprioridadbaja;
     private javax.swing.JMenuItem JMIprioridadmedia;
     private javax.swing.JMenuItem JMIticketsasignados;
+    private javax.swing.JMenuItem JMItodos;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;

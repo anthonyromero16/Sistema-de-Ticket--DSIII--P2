@@ -4,6 +4,7 @@
  */
 package sistema._de_ticket_dsiii_p2;
 import conector.Conexion;
+import sistema._de_ticket_dsiii_p2.Soporte;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
@@ -167,7 +168,9 @@ Login();
         JOptionPane.showMessageDialog(null, "Llene todos los campos");
         return;
     }
- conet = con.getConnection();
+
+    conet = con.getConnection();
+
     try {
         String sql = "SELECT * FROM usuarios WHERE nombre = ? AND contrasena = ? AND activo = TRUE";
         PreparedStatement pst = conet.prepareStatement(sql);
@@ -177,18 +180,18 @@ Login();
         ResultSet rs = pst.executeQuery();
 
         if (rs.next()) {
-            // Verificamos si el usuario es técnico
             String rol = rs.getString("rol");
+            String idUsuario = rs.getString("id_usuario"); // Obtenemos la cédula
+
             if ("tecnico".equalsIgnoreCase(rol)) {
                 JOptionPane.showMessageDialog(null, "Bienvenido " + nombre);
 
-                // Abrir JFrame Soporte
-                Soporte soporte = new Soporte();
+                // Pasamos la cédula al JFrame Soporte
+                Soporte soporte = new Soporte(idUsuario);
                 soporte.setVisible(true);
                 soporte.setLocationRelativeTo(null);
 
-                // Cerrar login si es un JFrame
-                this.dispose();
+                this.dispose(); // Cerrar el login
             } else {
                 JOptionPane.showMessageDialog(null, "Acceso restringido. Este módulo es solo para técnicos.");
             }
@@ -200,6 +203,7 @@ Login();
         JOptionPane.showMessageDialog(null, "Ocurrió un error: " + e.getMessage());
     }
 }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNiniciosesion;
