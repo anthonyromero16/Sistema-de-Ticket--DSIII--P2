@@ -23,6 +23,12 @@ private String idTecnico;
         public Soporte(String idTecnico) {
         initComponents();
         this.idTecnico = idTecnico;
+        
+                  Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
+    verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
+    escritorio.add(verventanaticketsasignados);
+    verventanaticketsasignados.setVisible(true);
+        
         setTitle("Panel Técnico - " + idTecnico); // opcional
     }
 

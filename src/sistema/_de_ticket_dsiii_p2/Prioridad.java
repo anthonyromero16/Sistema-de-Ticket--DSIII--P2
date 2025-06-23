@@ -34,11 +34,12 @@ public class Prioridad extends javax.swing.JInternalFrame {
     int idc;
    
 public String idTecnico;
-
+private String ticketSeleccionadoId = null;
 private String tituloVentana;
 
 public Prioridad(String idTecnico, String tituloVentana) {
      initComponents();
+ 
     this.idTecnico = idTecnico;
     this.tituloVentana = tituloVentana; // ← ESTA LÍNEA FALTABA
     setTitle(tituloVentana);
@@ -556,6 +557,11 @@ if (!hayResultados) {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TBLprioridad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TBLprioridadMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TBLprioridad);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -575,6 +581,11 @@ if (!hayResultados) {
         );
 
         BTNverdetalles.setText("Ver detalles");
+        BTNverdetalles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNverdetallesActionPerformed(evt);
+            }
+        });
 
         BTNresuelto.setText("Resuelto");
 
@@ -617,7 +628,7 @@ if (!hayResultados) {
                 .addContainerGap(70, Short.MAX_VALUE))
         );
 
-        pack();
+        setBounds(0, 0, 466, 488);
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTNbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNbuscarActionPerformed
@@ -653,6 +664,23 @@ if (!hayResultados) {
        cargarTicketsGeneral(this.idTecnico); 
     }
     }//GEN-LAST:event_TBid_ticketActionPerformed
+
+    private void TBLprioridadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TBLprioridadMouseClicked
+        int fila = TBLprioridad.getSelectedRow();
+    if (fila != -1) {
+        ticketSeleccionadoId = TBLprioridad.getValueAt(fila, 0).toString(); // columna 0 es id_ticket
+    }
+    }//GEN-LAST:event_TBLprioridadMouseClicked
+
+    private void BTNverdetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNverdetallesActionPerformed
+       if (ticketSeleccionadoId != null) {
+        Detalles_ticket dialog = new Detalles_ticket(null, true, ticketSeleccionadoId); // constructor con parámetro
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "Seleccione un ticket de la tabla.");
+    }
+    }//GEN-LAST:event_BTNverdetallesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
