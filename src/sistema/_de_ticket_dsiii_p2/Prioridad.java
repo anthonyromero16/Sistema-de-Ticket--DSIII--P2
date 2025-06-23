@@ -35,36 +35,21 @@ public class Prioridad extends javax.swing.JInternalFrame {
    
 public String idTecnico;
 
-
+private String tituloVentana;
 
 public Prioridad(String idTecnico, String tituloVentana) {
-    initComponents();
+     initComponents();
     this.idTecnico = idTecnico;
+    this.tituloVentana = tituloVentana; // ← ESTA LÍNEA FALTABA
     setTitle(tituloVentana);
     
 
-    if ("Tickets Asignados".equalsIgnoreCase(tituloVentana)) {
-        cargarTicketsAsignadosSinPrioridad(this.idTecnico);
-    }
-    
-     if ("Tickets de Alta Prioridad".equalsIgnoreCase(tituloVentana)) {
-    cargarTicketsAsignadosAltaPrioridad(this.idTecnico);
-    }
-    
-       if ("Tickets de Prioridad Media".equalsIgnoreCase(tituloVentana)) {
-     cargarTicketsAsignadosMediaPrioridad(this.idTecnico);
-      }
-     
-           if ("Tickets de Prioridad Baja".equalsIgnoreCase(tituloVentana)) {
-     cargarTicketsAsignadosBajaPrioridad(this.idTecnico);
-      }
-     
-             if ("Tickets en General".equalsIgnoreCase(tituloVentana)) {
-     cargarTicketsGeneral(this.idTecnico);
-      }
+    if ("Tickets Asignados".equalsIgnoreCase(tituloVentana)) {  cargarTicketsAsignadosSinPrioridad(this.idTecnico); } 
+    if ("Tickets de Alta Prioridad".equalsIgnoreCase(tituloVentana)) { cargarTicketsAsignadosAltaPrioridad(this.idTecnico); }
+    if ("Tickets de Prioridad Media".equalsIgnoreCase(tituloVentana)) { cargarTicketsAsignadosMediaPrioridad(this.idTecnico); }   
+    if ("Tickets de Prioridad Baja".equalsIgnoreCase(tituloVentana)) {  cargarTicketsAsignadosBajaPrioridad(this.idTecnico);   }  
+    if ("Tickets en General".equalsIgnoreCase(tituloVentana)) { cargarTicketsGeneral(this.idTecnico);  }
 }
-
-
 
     public void cargarTicketsAsignadosSinPrioridad(String idTecnico) {
     conet = con.getConnection();
@@ -243,10 +228,287 @@ public Prioridad(String idTecnico, String tituloVentana) {
     }
 }
     
+      ////////////////////////////////////////////////////////////////////////////////////////////////
+       ///////////////////////////////////////////////////////////////////////////////////////////////
+       //////////////////////////////////////////////////////////////////////////////////////////////
+       
+       void buscarTicketsAsignadosSinPrioridad() {
+    String entrada = TBid_ticket.getText().trim();
+
+    if (entrada.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Ingrese un ID de ticket o cédula de cliente.");
+        return;
+    }
+
+    String sql = "";
+    boolean buscarPorID = entrada.matches("\\d+"); // Si es solo números, se asume que es ID de ticket
+
+    if (buscarPorID) {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'ninguna' AND t.id_ticket = ?";
+    } else {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'ninguna' AND t.id_cliente = ?";
+    }
+
+    try (PreparedStatement pst = con.getConnection().prepareStatement(sql)) {
+        pst.setString(1, idTecnico); // Usa el id del técnico actual
+        pst.setString(2, entrada);   // ID del ticket o cédula del cliente
+
+        ResultSet rs = pst.executeQuery();
+
+        String[] columnas = {"ID", "Título", "Estado", "Fecha", "Cliente"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+boolean hayResultados = false;
+        while (rs.next()) {
+             hayResultados = true;
+            Object[] fila = new Object[5];
+            fila[0] = rs.getInt("id_ticket");
+            fila[1] = rs.getString("titulo");
+            fila[2] = rs.getString("estado");
+            fila[3] = rs.getTimestamp("fecha_creacion");
+            fila[4] = rs.getString("cliente");
+            modelo.addRow(fila);
+        }
+if (!hayResultados) {
+    JOptionPane.showMessageDialog(null, "No se encontraron tickets con ese dato.");
+}
+        TBLprioridad.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar tickets de sin prioridad: " + e.getMessage());
+    }
+}
+
+       
+       void buscarTicketsAsignadosAltaPrioridad() {
+    String entrada = TBid_ticket.getText().trim();
+
+    if (entrada.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Ingrese un ID de ticket o cédula de cliente.");
+        return;
+    }
+
+    String sql = "";
+    boolean buscarPorID = entrada.matches("\\d+"); // Si es solo números, se asume que es ID de ticket
+
+    if (buscarPorID) {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'alta' AND t.id_ticket = ?";
+    } else {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'alta' AND t.id_cliente = ?";
+    }
+
+    try (PreparedStatement pst = con.getConnection().prepareStatement(sql)) {
+        pst.setString(1, idTecnico); // Usa el id del técnico actual
+        pst.setString(2, entrada);   // ID del ticket o cédula del cliente
+
+        ResultSet rs = pst.executeQuery();
+
+        String[] columnas = {"ID", "Título", "Estado", "Fecha", "Cliente"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+boolean hayResultados = false;
+        while (rs.next()) {
+             hayResultados = true;
+            Object[] fila = new Object[5];
+            fila[0] = rs.getInt("id_ticket");
+            fila[1] = rs.getString("titulo");
+            fila[2] = rs.getString("estado");
+            fila[3] = rs.getTimestamp("fecha_creacion");
+            fila[4] = rs.getString("cliente");
+            modelo.addRow(fila);
+        }
+if (!hayResultados) {
+    JOptionPane.showMessageDialog(null, "No se encontraron tickets de prioridad alta con ese dato.");
+}
+        TBLprioridad.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar tickets de baja prioridad: " + e.getMessage());
+    }
+}
+
+       
+       void buscarTicketsAsignadosMediaPrioridad() {
+    String entrada = TBid_ticket.getText().trim();
+
+    if (entrada.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Ingrese un ID de ticket o cédula de cliente.");
+        return;
+    }
+
+    String sql = "";
+    boolean buscarPorID = entrada.matches("\\d+"); // Si es solo números, se asume que es ID de ticket
+
+    if (buscarPorID) {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'media' AND t.id_ticket = ?";
+    } else {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'media' AND t.id_cliente = ?";
+    }
+
+    try (PreparedStatement pst = con.getConnection().prepareStatement(sql)) {
+        pst.setString(1, idTecnico); // Usa el id del técnico actual
+        pst.setString(2, entrada);   // ID del ticket o cédula del cliente
+
+        ResultSet rs = pst.executeQuery();
+
+        String[] columnas = {"ID", "Título", "Estado", "Fecha", "Cliente"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+boolean hayResultados = false;
+        while (rs.next()) {
+             hayResultados = true;
+            Object[] fila = new Object[5];
+            fila[0] = rs.getInt("id_ticket");
+            fila[1] = rs.getString("titulo");
+            fila[2] = rs.getString("estado");
+            fila[3] = rs.getTimestamp("fecha_creacion");
+            fila[4] = rs.getString("cliente");
+            modelo.addRow(fila);
+        }
+if (!hayResultados) {
+    JOptionPane.showMessageDialog(null, "No se encontraron tickets de prioridad media con ese dato.");
+}
+        TBLprioridad.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar tickets de media prioridad: " + e.getMessage());
+    }
+}
+
+       
+    void buscarTicketsAsignadosBajaPrioridad() {
+    String entrada = TBid_ticket.getText().trim();
+
+    if (entrada.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Ingrese un ID de ticket o cédula de cliente.");
+        return;
+    }
+
+    String sql = "";
+    boolean buscarPorID = entrada.matches("\\d+"); // Si es solo números, se asume que es ID de ticket
+
+    if (buscarPorID) {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'baja' AND t.id_ticket = ?";
+    } else {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE a.id_tecnico = ? AND t.prioridad = 'baja' AND t.id_cliente = ?";
+    }
+
+    try (PreparedStatement pst = con.getConnection().prepareStatement(sql)) {
+        pst.setString(1, idTecnico); // Usa el id del técnico actual
+        pst.setString(2, entrada);   // ID del ticket o cédula del cliente
+
+        ResultSet rs = pst.executeQuery();
+
+        String[] columnas = {"ID", "Título", "Estado", "Fecha", "Cliente"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+boolean hayResultados = false;
+        while (rs.next()) {
+             hayResultados = true;
+            Object[] fila = new Object[5];
+            fila[0] = rs.getInt("id_ticket");
+            fila[1] = rs.getString("titulo");
+            fila[2] = rs.getString("estado");
+            fila[3] = rs.getTimestamp("fecha_creacion");
+            fila[4] = rs.getString("cliente");
+            modelo.addRow(fila);
+        }
+if (!hayResultados) {
+    JOptionPane.showMessageDialog(null, "No se encontraron tickets de prioridad baja con ese dato.");
+}
+        TBLprioridad.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar tickets de baja prioridad: " + e.getMessage());
+    }
+} 
      
-     
-     
-     
+    void buscarTicketsGeneral() {
+    String entrada = TBid_ticket.getText().trim();
+
+    if (entrada.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Ingrese un ID de ticket o cédula de cliente.");
+        return;
+    }
+
+    String sql = "";
+    boolean buscarPorID = entrada.matches("\\d+"); // si solo contiene números
+  conet = con.getConnection();
+    if (buscarPorID) {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE t.id_ticket = ?";
+    } else {
+        sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
+              "FROM tickets t " +
+              "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
+              "WHERE t.id_cliente = ?";
+    }
+
+    try (PreparedStatement pst = conet.prepareStatement(sql)) {
+        pst.setString(1, entrada);
+
+        ResultSet rs = pst.executeQuery();
+
+        String[] columnas = {"ID", "Título", "Estado", "Fecha", "Cliente"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+boolean hayResultados = false;
+        while (rs.next()) {
+             hayResultados = true;
+            Object[] fila = new Object[5];
+            fila[0] = rs.getInt("id_ticket");
+            fila[1] = rs.getString("titulo");
+            fila[2] = rs.getString("estado");
+            fila[3] = rs.getTimestamp("fecha_creacion");
+            fila[4] = rs.getString("cliente");
+            modelo.addRow(fila);
+        }
+if (!hayResultados) {
+    JOptionPane.showMessageDialog(null, "No se encontraron tickets  con ese dato.");
+}
+        TBLprioridad.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar el ticket: " + e.getMessage());
+    }
+}
+
+      
+     ////////////////////////////////////////////////////////////////////////////////////////////////
+       ///////////////////////////////////////////////////////////////////////////////////////////////
+       //////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -269,6 +531,17 @@ public Prioridad(String idTecnico, String tituloVentana) {
         LBLbuscarticket.setText("Buscar ticket:");
 
         BTNbuscar.setText("Buscar");
+        BTNbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNbuscarActionPerformed(evt);
+            }
+        });
+
+        TBid_ticket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TBid_ticketActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Tickets"));
 
@@ -346,6 +619,40 @@ public Prioridad(String idTecnico, String tituloVentana) {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BTNbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNbuscarActionPerformed
+     
+         if ("Tickets Asignados".equalsIgnoreCase(tituloVentana)) {
+       buscarTicketsAsignadosSinPrioridad();
+    }
+    
+     if ("Tickets de Alta Prioridad".equalsIgnoreCase(tituloVentana)) {
+   buscarTicketsAsignadosAltaPrioridad();
+    }
+    
+       if ("Tickets de Prioridad Media".equalsIgnoreCase(tituloVentana)) {
+     buscarTicketsAsignadosMediaPrioridad();
+      }
+     
+           if ("Tickets de Prioridad Baja".equalsIgnoreCase(tituloVentana)) {
+     buscarTicketsAsignadosBajaPrioridad();
+      }
+          if ("Tickets en General".equalsIgnoreCase(tituloVentana)) {
+        buscarTicketsGeneral();
+          }
+          
+          
+          
+          
+          
+        
+    }//GEN-LAST:event_BTNbuscarActionPerformed
+
+    private void TBid_ticketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TBid_ticketActionPerformed
+      if (TBid_ticket.getText().trim().isEmpty()) {
+       cargarTicketsGeneral(this.idTecnico); 
+    }
+    }//GEN-LAST:event_TBid_ticketActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
