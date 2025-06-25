@@ -6,7 +6,6 @@ package sistema._de_ticket_dsiii_p2;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;
-
 import conector.Conexion;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -357,8 +356,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     }//GEN-LAST:event_BTNAgregar_comentarioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      ChatDialog chat = new ChatDialog(idTicket); // Pasa el ID real del ticket
-chat.setVisible(true);
+     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

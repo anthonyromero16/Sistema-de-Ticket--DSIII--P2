@@ -3,18 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package sistema._de_ticket_dsiii_p2;
+import sistema._de_ticket_dsiii_p2.Inicio;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import conector.Conexion;
+import java.sql.Connection;
+
+
 
 /**
  *
  * @author raul1
  */
 public class clientView extends javax.swing.JFrame {
-
+    private String idUsuario;
+    Conexion con= new Conexion();  
+    Connection conet;
     /**
      * Creates new form clientView
      */
-    public clientView() {
+    public clientView(String idUsuario) {
+        this.idUsuario = idUsuario;
         initComponents();
+        UIManager.put("OptionPane.yesButtonText", "Sí");
+        UIManager.put("OptionPane.noButtonText", "No");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
+        UIManager.put("OptionPane.okButtonText", "Aceptar");
     }
 
     /**
@@ -40,7 +54,7 @@ public class clientView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         catSelect = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        asunto = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -162,7 +176,7 @@ public class clientView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(23, 23, 23)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(asunto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -181,7 +195,7 @@ public class clientView extends javax.swing.JFrame {
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(asunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(catSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -245,7 +259,22 @@ public class clientView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarSesionActionPerformed
-        // TODO add your handling code here:
+        int opcion = JOptionPane.showConfirmDialog(
+            null,
+            "¿Seguro que deseas cerrar sesión?",
+            "Confirmar cierre de sesión",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            // Cierra la ventana actual
+            dispose();
+
+            // Abre la ventana de inicio de sesión
+            // Suponiendo que tu clase de login se llama LoginView
+            Inicio login = new Inicio();
+            login.setVisible(true);
+        }
     }//GEN-LAST:event_cerrarSesionActionPerformed
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
@@ -278,17 +307,19 @@ public class clientView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(clientView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new clientView().setVisible(true);
+                String idUsuario = (args.length > 0) ? args[0] : "";
+                new clientView(idUsuario).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> StatFilter;
+    private javax.swing.JTextField asunto;
     private javax.swing.JButton cancel;
     private javax.swing.JComboBox<String> catFilter;
     private javax.swing.JComboBox<String> catSelect;
@@ -310,6 +341,5 @@ public class clientView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
