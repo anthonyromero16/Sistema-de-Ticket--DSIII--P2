@@ -21,15 +21,13 @@ private String idTecnico;
      */
  
         public Soporte(String idTecnico) {
-        initComponents();
-        this.idTecnico = idTecnico;
-        
-                  Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
-    verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
-    escritorio.add(verventanaticketsasignados);
-    verventanaticketsasignados.setVisible(true);
-        
-        setTitle("Panel Técnico - " + idTecnico); // opcional
+            initComponents();
+            this.idTecnico = idTecnico;        
+            Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
+            verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
+            escritorio.add(verventanaticketsasignados);
+            verventanaticketsasignados.setVisible(true);        
+            setTitle("Panel Técnico - " + idTecnico); // opcional
     }
 
    
@@ -71,6 +69,11 @@ private String idTecnico;
         jMenu4.setText("Inicio");
 
         jMenuItem1.setText("Cerrar sesión");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem1);
 
         jMenuBar1.add(jMenu4);
@@ -158,42 +161,43 @@ private String idTecnico;
     }//GEN-LAST:event_jMenu5ActionPerformed
 
     private void JMIticketsasignadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIticketsasignadosActionPerformed
-      Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets Asignados");
-    verventanaticketsasignados.setTitle("Tickets Asignados"); // Aquí modificas el título
-    escritorio.add(verventanaticketsasignados);
-    verventanaticketsasignados.setVisible(true);
+        Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets Asignados");
+        verventanaticketsasignados.setTitle("Tickets Asignados"); // Aquí modificas el título
+        escritorio.add(verventanaticketsasignados);
+        verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIticketsasignadosActionPerformed
 
     private void JMIprioridadaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadaltaActionPerformed
-       Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Alta Prioridad");
-    verventanaticketsasignados.setTitle("Tickets de Alta Prioridad"); // Aquí modificas el título
-    escritorio.add(verventanaticketsasignados);
-    verventanaticketsasignados.setVisible(true);
+        Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Alta Prioridad");
+        verventanaticketsasignados.setTitle("Tickets de Alta Prioridad"); // Aquí modificas el título
+        escritorio.add(verventanaticketsasignados);
+        verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadaltaActionPerformed
 
     private void JMIprioridadmediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadmediaActionPerformed
-          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Media");
-    verventanaticketsasignados.setTitle("Tickets de Prioridad Media"); // Aquí modificas el título
-    escritorio.add(verventanaticketsasignados);
-    verventanaticketsasignados.setVisible(true);
+        Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Media");
+        verventanaticketsasignados.setTitle("Tickets de Prioridad Media"); // Aquí modificas el título
+        escritorio.add(verventanaticketsasignados);
+        verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadmediaActionPerformed
 
     private void JMIprioridadbajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadbajaActionPerformed
-            Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Baja");
-    verventanaticketsasignados.setTitle("Tickets de Prioridad Baja"); // Aquí modificas el título
-    escritorio.add(verventanaticketsasignados);
-    verventanaticketsasignados.setVisible(true);
+        Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Baja");
+        verventanaticketsasignados.setTitle("Tickets de Prioridad Baja"); // Aquí modificas el título
+        escritorio.add(verventanaticketsasignados);
+        verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadbajaActionPerformed
 
     private void JMItodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMItodosActionPerformed
-          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
-    verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
-    escritorio.add(verventanaticketsasignados);
-    verventanaticketsasignados.setVisible(true);
-        
-        
-        
+        Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
+        verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
+        escritorio.add(verventanaticketsasignados);
+        verventanaticketsasignados.setVisible(true);        
     }//GEN-LAST:event_JMItodosActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -29,8 +29,8 @@ import java.io.FileOutputStream;
  * @author antho
  */
 public class Detalles_ticket extends javax.swing.JDialog {
-Conexion con= new Conexion();
- Connection conet;
+    Conexion con= new Conexion();
+    Connection conet;
     DefaultTableModel modelo;
     Statement st;
     ResultSet rs;
@@ -38,7 +38,7 @@ Conexion con= new Conexion();
     /**
      * Creates new form Detalles_ticket
      */
-   private String idTicket; // este guarda el ID que recibes
+    private String idTicket; // este guarda el ID que recibes
     public Detalles_ticket(java.awt.Frame parent, boolean modal, String idTicket) {
     super(parent, modal);
     initComponents();
@@ -343,7 +343,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
             String asunto = "Nuevo comentario en tu ticket #" + idTicket;
             String mensaje = "Hola, se ha agregado un nuevo comentario a tu ticket #" + idTicket + ":\n\n" + comentario;
 
-            CorreoUtil.enviarCorreo(correoTecnico, claveTecnico, correoCliente, asunto, mensaje);
+            
 
             JOptionPane.showMessageDialog(this, "Comentario agregado y notificación enviada al cliente.");
         } else {
@@ -391,8 +391,8 @@ chat.setVisible(true);
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-    Detalles_ticket dialog = new Detalles_ticket(new javax.swing.JFrame(), true, "5"); // ✅ Aquí pasas los argumentos REALES
-    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+        Detalles_ticket dialog = new Detalles_ticket(new javax.swing.JFrame(), true, "5"); // ✅ Aquí pasas los argumentos REALES
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowClosing(java.awt.event.WindowEvent e) {
             System.exit(0);

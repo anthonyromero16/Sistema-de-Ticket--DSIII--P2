@@ -120,7 +120,7 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTNiniciosesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNiniciosesionActionPerformed
-Login();        
+        Login();        
     }//GEN-LAST:event_BTNiniciosesionActionPerformed
 
     /**
