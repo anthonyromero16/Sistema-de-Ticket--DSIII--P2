@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -53,6 +55,7 @@ public class clientView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         StatFilter = new javax.swing.JComboBox<>();
         filter = new javax.swing.JButton();
+        chat = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         catSelect = new javax.swing.JComboBox<>();
@@ -101,13 +104,20 @@ public class clientView extends javax.swing.JFrame {
 
         jLabel1.setText("Categoría:");
 
-        catFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Software", "Hardware", "Conexión", "Mantenimiento" }));
+        catFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Software", "Hardware", "Conexión", "Mantenimiento" }));
 
         jLabel2.setText("Estado:");
 
-        StatFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "En Espera", "En Proceso", "Resuelto" }));
+        StatFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "En Espera", "En Proceso", "Resuelto" }));
 
         filter.setText("Filtrar");
+        filter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterActionPerformed(evt);
+            }
+        });
+
+        chat.setText("Contactar al Equipo");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -119,14 +129,17 @@ public class clientView extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(StatFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(catFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(filter)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(StatFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(catFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(filter))
+                            .addComponent(chat))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -148,7 +161,9 @@ public class clientView extends javax.swing.JFrame {
                         .addComponent(filter)))
                 .addGap(17, 17, 17)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chat)
+                .addContainerGap(226, Short.MAX_VALUE))
         );
 
         client_historial.addTab("MIs Tickets", jPanel2);
@@ -359,6 +374,54 @@ public class clientView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_client_historialPropertyChange
 
+    private void filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterActionPerformed
+       
+        
+        
+        String categoria = catFilter.getSelectedItem().toString();
+        String estado = StatFilter.getSelectedItem().toString();
+
+        
+        String sql = "SELECT * FROM tickets WHERE 1=1";
+        if (!categoria.equals("Todas")) {
+            sql += " AND categoria = ?";
+        }
+        if (!estado.equals("Todos")) {
+            sql += " AND estado = ?";
+        }
+        conet = con.getConnection();
+        try (PreparedStatement pst = conet.prepareStatement(sql)) {
+            int index = 1;
+            if (!categoria.equals("Todas")) {
+                pst.setString(index++, categoria);
+            }
+            if (!estado.equals("Todos")) {
+                pst.setString(index++, estado);
+            }
+
+            ResultSet rs = pst.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) tablaTickets.getModel();
+            model.setRowCount(0); // Limpia la tabla antes de agregar nuevos datos
+
+            while (rs.next()) {
+                
+                Object[] row = {
+                    rs.getString("titulo"),
+                    rs.getString("categoria"),
+                    rs.getString("fecha_creacion"),
+                    rs.getString("estado")
+                };
+                model.addRow(row);
+                
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al filtrar tickets: " + ex.getMessage());
+        }
+
+        
+    }//GEN-LAST:event_filterActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -402,6 +465,7 @@ public class clientView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> catFilter;
     private javax.swing.JComboBox<String> catSelect;
     private javax.swing.JMenuItem cerrarSesion;
+    private javax.swing.JButton chat;
     private javax.swing.JTabbedPane client_historial;
     private javax.swing.JButton create;
     private javax.swing.JTextArea descript;
