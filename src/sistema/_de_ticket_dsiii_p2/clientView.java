@@ -9,7 +9,9 @@ import javax.swing.UIManager;
 import conector.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
 
 /**
  *
@@ -29,6 +31,7 @@ public class clientView extends javax.swing.JFrame {
         UIManager.put("OptionPane.noButtonText", "No");
         UIManager.put("OptionPane.cancelButtonText", "Cancelar");
         UIManager.put("OptionPane.okButtonText", "Aceptar");
+        cargarMisTickets();
     }
 
     /**
@@ -44,7 +47,7 @@ public class clientView extends javax.swing.JFrame {
         client_historial = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaTickets = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         catFilter = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -69,8 +72,13 @@ public class clientView extends javax.swing.JFrame {
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(865, 559));
 
         client_historial.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        client_historial.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                client_historialPropertyChange(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaTickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -86,10 +94,10 @@ public class clientView extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Asunto", "Categoría", "Fecha", "Estado"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaTickets);
 
         jLabel1.setText("Categoría:");
 
@@ -279,9 +287,35 @@ public class clientView extends javax.swing.JFrame {
             // Suponiendo que tu clase de login se llama LoginView
             Inicio login = new Inicio();
             login.setVisible(true);
-        }
+        }        
     }//GEN-LAST:event_cerrarSesionActionPerformed
 
+    
+    private void cargarMisTickets() {
+        conet = con.getConnection();
+        DefaultTableModel model = (DefaultTableModel) tablaTickets.getModel();
+        model.setRowCount(0); // Limpia la tabla
+
+        String sql = "SELECT titulo, categoria, fecha_creacion, estado FROM tickets WHERE id_cliente = ?";
+        try (PreparedStatement pst = conet.prepareStatement(sql)) {
+            pst.setString(1, this.idUsuario); // Usa el id del usuario actual
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Object[] row = {
+                    rs.getString("titulo"),
+                    rs.getString("categoria"),
+                    rs.getDate("fecha_creacion"),
+                    rs.getString("estado")
+                };
+            model.addRow(row);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar los tickets: " + e.getMessage());
+        }
+    }
+    
+    
+    
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
         conet = con.getConnection();
         try {
@@ -306,7 +340,7 @@ public class clientView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al crear el ticket.");
         }
         ps.close();
-
+        cargarMisTickets();
     } catch (Exception ex) {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
@@ -318,6 +352,12 @@ public class clientView extends javax.swing.JFrame {
         descript.setText("");       
         catSelect.setSelectedIndex(0);
     }//GEN-LAST:event_cancelActionPerformed
+
+    
+    
+    private void client_historialPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_client_historialPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_client_historialPropertyChange
 
     /**
      * @param args the command line arguments
@@ -378,6 +418,6 @@ public class clientView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaTickets;
     // End of variables declaration//GEN-END:variables
 }
