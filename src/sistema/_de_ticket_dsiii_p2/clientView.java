@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import conector.Conexion;
 import java.sql.Connection;
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
@@ -22,13 +23,21 @@ import sistema._de_ticket_dsiii_p2.Inicio;
  */
 public class clientView extends javax.swing.JFrame {
     private String idUsuario;
+       private String rol;
+       private String tituloSeleccionado ;
+       private    String idTicket = null;
     Conexion con= new Conexion();  
     Connection conet;
+     DefaultTableModel modelo;
+    Statement st;
+    ResultSet rs;
+    int idc;
     /**
      * Creates new form clientView
      */
     public clientView(String idUsuario) {
         this.idUsuario = idUsuario;
+        rol="cliente";
         initComponents();
         UIManager.put("OptionPane.yesButtonText", "Sí");
         UIManager.put("OptionPane.noButtonText", "No");
@@ -101,6 +110,11 @@ public class clientView extends javax.swing.JFrame {
                 "Asunto", "Categoría", "Fecha", "Estado"
             }
         ));
+        tablaTickets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaTicketsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaTickets);
 
         jLabel1.setText("Categoría:");
@@ -129,6 +143,11 @@ public class clientView extends javax.swing.JFrame {
         });
 
         chat.setText("Contactar al Equipo");
+        chat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -440,6 +459,76 @@ public class clientView extends javax.swing.JFrame {
     private void StatFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatFilterActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_StatFilterActionPerformed
+
+    private void chatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatActionPerformed
+        if (tituloSeleccionado != null) {
+     
+        String idTecnico = null;
+
+        Connection conn = con.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            // 1. Obtener el id_ticket a partir del título
+            String sqlTicket = "SELECT id_ticket FROM tickets WHERE titulo = ?";
+            ps = conn.prepareStatement(sqlTicket);
+            ps.setString(1, tituloSeleccionado);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                idTicket = rs.getString("id_ticket");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el ticket con ese título.");
+                return;
+            }
+
+            rs.close();
+            ps.close();
+
+            // 2. Obtener el id del técnico asignado al ticket
+            String sqlAsignacion = "SELECT id_tecnico FROM asignaciones WHERE id_ticket = ?";
+            ps = conn.prepareStatement(sqlAsignacion);
+            ps.setString(1, idTicket);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                idTecnico = rs.getString("id_tecnico");
+            } else {
+                JOptionPane.showMessageDialog(this, "Este ticket no tiene técnico asignado.");
+                return;
+            }
+
+            // 3. Abrir la ventana de chat
+            Chat dialog = new Chat(null, true, idTicket, rol, idUsuario); // Asegúrate que el constructor acepta eso
+            dialog.setVisible(true);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error en la base de datos: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error al cerrar conexión: " + e.getMessage());
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Seleccione un ticket de la tabla.");
+    }    
+               
+               
+            
+
+    }//GEN-LAST:event_chatActionPerformed
+
+    private void tablaTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTicketsMouseClicked
+          int fila = tablaTickets.getSelectedRow();
+    if (fila != -1) {
+        tituloSeleccionado  = tablaTickets.getValueAt(fila, 0).toString(); // columna 0 es id_ticket
+    }
+    }//GEN-LAST:event_tablaTicketsMouseClicked
 
     /**
      * @param args the command line arguments

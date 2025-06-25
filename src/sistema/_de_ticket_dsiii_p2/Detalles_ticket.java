@@ -149,6 +149,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
         JCBprioridad = new javax.swing.JComboBox<>();
         JCBestado = new javax.swing.JComboBox<>();
         BTNchat = new javax.swing.JButton();
+        JLactividad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -202,11 +203,11 @@ JCBestado.setSelectedItem(rs.getString("estado"));
         });
         jScrollPane1.setViewportView(TAcomentario);
 
-        BTNresuelto.setText("Resuelto");
+        BTNresuelto.setText("Guardar Actualizaciones");
 
         JCBprioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna", "alta", "media", "baja" }));
 
-        JCBestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nuevo", "en proceso", "cancelado" }));
+        JCBestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nuevo", "en proceso", "resuelto", "cancelado" }));
 
         BTNchat.setText("Chat");
         BTNchat.addActionListener(new java.awt.event.ActionListener() {
@@ -214,6 +215,8 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                 BTNchatActionPerformed(evt);
             }
         });
+
+        JLactividad.setText("Actividad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,8 +231,9 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 258, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(LBLdescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -242,25 +246,24 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(LBLid_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(LBLtecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(LBLcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(LBLtitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(LBLfecha_creacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(JCBprioridad, 0, 119, Short.MAX_VALUE))
-                                    .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(259, 259, 259))
+                                        .addComponent(JCBprioridad, 0, 119, Short.MAX_VALUE)))
+                                .addGap(159, 159, 159))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(LBLdescripcion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(BTNAgregar_comentario)
-                                        .addGap(54, 54, 54)
-                                        .addComponent(BTNchat)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(BTNresuelto)))
-                                .addGap(66, 66, 66))))
+                                .addComponent(BTNAgregar_comentario)
+                                .addGap(54, 54, 54)
+                                .addComponent(BTNchat)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BTNresuelto)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JLactividad, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -273,41 +276,46 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(LBLid_ticket))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(LBLcliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(LBLtecnico))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(LBLtitulo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(JCBprioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(LBLfecha_creacion))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(LBLdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BTNAgregar_comentario)
-                    .addComponent(BTNresuelto)
-                    .addComponent(BTNchat))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(LBLcliente))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(LBLtecnico))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(LBLtitulo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(JCBprioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(LBLfecha_creacion))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(LBLdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BTNAgregar_comentario)
+                            .addComponent(BTNresuelto)
+                            .addComponent(BTNchat)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(JLactividad, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -327,41 +335,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
         return;
     }
 
-    try {
-        // Guardar comentario en base de datos (ya debes tener este bloque)
-        // ...
-
-        // Obtener datos del técnico y del cliente
-        Connection conet = con.getConnection();
-        String sql = "SELECT u1.correo AS correo_tecnico, u1.clave AS clave_tecnico, u2.correo AS correo_cliente " +
-                     "FROM tickets t " +
-                     "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
-                     "JOIN usuarios u1 ON a.id_tecnico = u1.id_usuario " +
-                     "JOIN usuarios u2 ON t.id_cliente = u2.id_usuario " +
-                     "WHERE t.id_ticket = ?";
-        PreparedStatement pst = conet.prepareStatement(sql);
-        pst.setString(1, idTicket);
-        ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-            String correoTecnico = rs.getString("correo_tecnico");
-            String claveTecnico = rs.getString("clave_tecnico"); // Asegúrate que es la contraseña real
-            String correoCliente = rs.getString("correo_cliente");
-
-            String asunto = "Nuevo comentario en tu ticket #" + idTicket;
-            String mensaje = "Hola, se ha agregado un nuevo comentario a tu ticket #" + idTicket + ":\n\n" + comentario;
-
-            
-
-            JOptionPane.showMessageDialog(this, "Comentario agregado y notificación enviada al cliente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontraron los correos para este ticket.");
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al agregar comentario o enviar correo: " + e.getMessage());
-    } 
-        
+  
     }//GEN-LAST:event_BTNAgregar_comentarioActionPerformed
 
     private void BTNchatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNchatActionPerformed
@@ -426,6 +400,45 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     });
     }
 
+    public void comentar(){
+    
+      String comentario = TAcomentario.getText().trim();
+      
+      try {
+     
+        Connection conet = con.getConnection();
+        String sql = "SELECT u1.correo AS correo_tecnico, u1.clave AS clave_tecnico, u2.correo AS correo_cliente " +
+                     "FROM tickets t " +
+                     "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+                     "JOIN usuarios u1 ON a.id_tecnico = u1.id_usuario " +
+                     "JOIN usuarios u2 ON t.id_cliente = u2.id_usuario " +
+                     "WHERE t.id_ticket = ?";
+        PreparedStatement pst = conet.prepareStatement(sql);
+        pst.setString(1, idTicket);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String correoTecnico = rs.getString("correo_tecnico");
+            String claveTecnico = rs.getString("clave_tecnico"); // Asegúrate que es la contraseña real
+            String correoCliente = rs.getString("correo_cliente");
+
+            String asunto = "Nuevo comentario en tu ticket #" + idTicket;
+            String mensaje = "Hola, se ha agregado un nuevo comentario a tu ticket #" + idTicket + ":\n\n" + comentario;
+
+            
+
+            JOptionPane.showMessageDialog(this, "Comentario agregado y notificación enviada al cliente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontraron los correos para este ticket.");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al agregar comentario o enviar correo: " + e.getMessage());
+    } 
+        
+    
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNAgregar_comentario;
@@ -433,6 +446,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     private javax.swing.JButton BTNresuelto;
     private javax.swing.JComboBox<String> JCBestado;
     private javax.swing.JComboBox<String> JCBprioridad;
+    private javax.swing.JLabel JLactividad;
     private javax.swing.JLabel LBLcliente;
     private javax.swing.JLabel LBLdescripcion;
     private javax.swing.JLabel LBLfecha_creacion;
