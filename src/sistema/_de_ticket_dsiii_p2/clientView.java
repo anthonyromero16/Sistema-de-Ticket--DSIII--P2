@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import conector.Conexion;
 import java.sql.Connection;
-
+import java.sql.PreparedStatement;
 
 
 /**
@@ -57,7 +57,7 @@ public class clientView extends javax.swing.JFrame {
         asunto = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        descript = new javax.swing.JTextArea();
         create = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -153,9 +153,9 @@ public class clientView extends javax.swing.JFrame {
 
         jLabel5.setText("Por favor describa el problema:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        descript.setColumns(20);
+        descript.setRows(5);
+        jScrollPane2.setViewportView(descript);
 
         create.setText("Crear");
         create.addActionListener(new java.awt.event.ActionListener() {
@@ -165,6 +165,11 @@ public class clientView extends javax.swing.JFrame {
         });
 
         cancel.setText("Cancelar");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -278,8 +283,41 @@ public class clientView extends javax.swing.JFrame {
     }//GEN-LAST:event_cerrarSesionActionPerformed
 
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
-        // TODO add your handling code here:
+        conet = con.getConnection();
+        try {
+        
+        String titulo = asunto.getText();
+        String descripcion = descript.getText();
+        java.sql.Timestamp fechaCreacion = new java.sql.Timestamp(System.currentTimeMillis());
+        String categoria = catSelect.getSelectedItem().toString();
+
+        String sql = "INSERT INTO tickets (id_cliente, titulo, descripcion, fecha_creacion, categoria) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement ps = conet.prepareStatement(sql);
+        ps.setString(1, this.idUsuario);
+        ps.setString(2, titulo);
+        ps.setString(3, descripcion);
+        ps.setTimestamp(4, fechaCreacion);
+        ps.setString(5, categoria);
+
+        int rows = ps.executeUpdate();
+        if (rows > 0) {
+            JOptionPane.showMessageDialog(this, "Ticket creado exitosamente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al crear el ticket.");
+        }
+        ps.close();
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
     }//GEN-LAST:event_createActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        asunto.setText("");          
+        descript.setText("");       
+        catSelect.setSelectedIndex(0);
+    }//GEN-LAST:event_cancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,6 +364,7 @@ public class clientView extends javax.swing.JFrame {
     private javax.swing.JMenuItem cerrarSesion;
     private javax.swing.JTabbedPane client_historial;
     private javax.swing.JButton create;
+    private javax.swing.JTextArea descript;
     private javax.swing.JButton filter;
     private javax.swing.JMenu inicio;
     private javax.swing.JDesktopPane jDesktopPane1;
@@ -340,6 +379,5 @@ public class clientView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
