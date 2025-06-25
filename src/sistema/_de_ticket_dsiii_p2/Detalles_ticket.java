@@ -149,7 +149,6 @@ JCBestado.setSelectedItem(rs.getString("estado"));
         JCBprioridad = new javax.swing.JComboBox<>();
         JCBestado = new javax.swing.JComboBox<>();
         BTNchat = new javax.swing.JButton();
-        JLactividad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -204,6 +203,11 @@ JCBestado.setSelectedItem(rs.getString("estado"));
         jScrollPane1.setViewportView(TAcomentario);
 
         BTNresuelto.setText("Guardar Actualizaciones");
+        BTNresuelto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNresueltoActionPerformed(evt);
+            }
+        });
 
         JCBprioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna", "alta", "media", "baja" }));
 
@@ -215,8 +219,6 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                 BTNchatActionPerformed(evt);
             }
         });
-
-        JLactividad.setText("Actividad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -261,9 +263,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                                 .addComponent(BTNchat)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(BTNresuelto)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JLactividad, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36))
+                        .addGap(242, 242, 242))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -276,46 +276,41 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(LBLid_ticket))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(LBLcliente))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(LBLtecnico))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(LBLtitulo))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(JCBprioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(LBLfecha_creacion))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LBLdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BTNAgregar_comentario)
-                            .addComponent(BTNresuelto)
-                            .addComponent(BTNchat)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(JLactividad, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(LBLcliente))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(LBLtecnico))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(LBLtitulo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(JCBprioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(LBLfecha_creacion))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(LBLdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BTNAgregar_comentario)
+                    .addComponent(BTNresuelto)
+                    .addComponent(BTNchat))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -342,11 +337,12 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     Chat dialog = new Chat(null, true, idTicket, rol, idTecnico); // ← pasas los 3 valores
     dialog.setVisible(true);
 
-    
-
- 
    
     }//GEN-LAST:event_BTNchatActionPerformed
+
+    private void BTNresueltoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNresueltoActionPerformed
+GuardarActualizacion();      
+    }//GEN-LAST:event_BTNresueltoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -439,14 +435,48 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     
     }
     
-    
+    public void GuardarActualizacion() {
+    String nuevoEstado = JCBestado.getSelectedItem().toString();
+    String nuevaPrioridad = JCBprioridad.getSelectedItem().toString();
+
+  
+
+    Connection conn = con.getConnection();
+    PreparedStatement ps = null;
+
+    try {
+        String sql = "UPDATE tickets SET estado = ?, prioridad = ? WHERE id_ticket = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nuevoEstado);
+        ps.setString(2, nuevaPrioridad);
+        ps.setString(3, idTicket);
+
+        int filasAfectadas = ps.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(null, "Ticket actualizado correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el ticket para actualizar.");
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al actualizar el ticket: " + e.getMessage());
+    } finally {
+        try {
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al cerrar conexión: " + e.getMessage());
+        }
+    }
+}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNAgregar_comentario;
     private javax.swing.JButton BTNchat;
     private javax.swing.JButton BTNresuelto;
     private javax.swing.JComboBox<String> JCBestado;
     private javax.swing.JComboBox<String> JCBprioridad;
-    private javax.swing.JLabel JLactividad;
     private javax.swing.JLabel LBLcliente;
     private javax.swing.JLabel LBLdescripcion;
     private javax.swing.JLabel LBLfecha_creacion;

@@ -47,9 +47,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Component id="BTNverdetalles" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="BTNresuelto" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+              <EmptySpace min="74" pref="330" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -65,10 +63,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="BTNverdetalles" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="BTNresuelto" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="BTNverdetalles" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="70" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -155,11 +150,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTNverdetallesActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="BTNresuelto">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Resuelto"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

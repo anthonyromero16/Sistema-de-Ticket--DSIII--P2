@@ -362,33 +362,80 @@ public class clientView extends javax.swing.JFrame {
     
     
     private void createActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createActionPerformed
-        conet = con.getConnection();
-        try {
-        
+      conet = con.getConnection();
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    try {
         String titulo = asunto.getText();
         String descripcion = descript.getText();
         java.sql.Timestamp fechaCreacion = new java.sql.Timestamp(System.currentTimeMillis());
         String categoria = catSelect.getSelectedItem().toString();
 
-        String sql = "INSERT INTO tickets (id_cliente, titulo, descripcion, fecha_creacion, categoria) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement ps = conet.prepareStatement(sql);
+        // Paso 1: Insertar el ticket
+        String sqlTicket = "INSERT INTO tickets (id_cliente, titulo, descripcion, fecha_creacion, categoria) VALUES (?, ?, ?, ?, ?)";
+        ps = conet.prepareStatement(sqlTicket, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, this.idUsuario);
         ps.setString(2, titulo);
         ps.setString(3, descripcion);
         ps.setTimestamp(4, fechaCreacion);
         ps.setString(5, categoria);
-
         int rows = ps.executeUpdate();
+
         if (rows > 0) {
-            JOptionPane.showMessageDialog(this, "Ticket creado exitosamente.");
+            rs = ps.getGeneratedKeys();
+            int idTicket = -1;
+            if (rs.next()) {
+                idTicket = rs.getInt(1);
+            }
+
+            if (idTicket != -1) {
+                // Paso 2: Buscar técnico con menos asignaciones
+                String sqlTecnico = """
+                    SELECT u.id_usuario
+                    FROM usuarios u
+                    LEFT JOIN asignaciones a ON u.id_usuario = a.id_tecnico
+                    WHERE u.rol = 'tecnico'
+                    GROUP BY u.id_usuario
+                    ORDER BY COUNT(a.id_asignacion) ASC
+                    LIMIT 1
+                    """;
+                ps = conet.prepareStatement(sqlTecnico);
+                rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    String idTecnico = rs.getString("id_usuario");
+
+                    // Paso 3: Insertar la asignación
+                    String sqlAsignacion = "INSERT INTO asignaciones (id_ticket, id_tecnico) VALUES (?, ?)";
+                    ps = conet.prepareStatement(sqlAsignacion);
+                    ps.setInt(1, idTicket);
+                    ps.setString(2, idTecnico);
+                    ps.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Ticket creado y asignado al técnico con menor carga.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ticket creado, pero no se encontró un técnico disponible.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo obtener el ID del ticket.");
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Error al crear el ticket.");
         }
-        ps.close();
+
         cargarMisTickets();
     } catch (Exception ex) {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+            if (conet != null) conet.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     }//GEN-LAST:event_createActionPerformed
 

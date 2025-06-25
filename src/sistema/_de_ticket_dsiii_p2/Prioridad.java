@@ -522,7 +522,6 @@ if (!hayResultados) {
         jScrollPane1 = new javax.swing.JScrollPane();
         TBLprioridad = new javax.swing.JTable();
         BTNverdetalles = new javax.swing.JButton();
-        BTNresuelto = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -588,8 +587,6 @@ if (!hayResultados) {
             }
         });
 
-        BTNresuelto.setText("Resuelto");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -608,9 +605,7 @@ if (!hayResultados) {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(BTNverdetalles)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BTNresuelto)
-                .addGap(74, 74, 74))
+                .addGap(74, 330, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -623,9 +618,7 @@ if (!hayResultados) {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BTNverdetalles)
-                    .addComponent(BTNresuelto))
+                .addComponent(BTNverdetalles)
                 .addContainerGap(70, Short.MAX_VALUE))
         );
 
@@ -687,7 +680,6 @@ if (!hayResultados) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNbuscar;
-    private javax.swing.JButton BTNresuelto;
     private javax.swing.JButton BTNverdetalles;
     private javax.swing.JLabel LBLbuscarticket;
     private javax.swing.JTable TBLprioridad;
