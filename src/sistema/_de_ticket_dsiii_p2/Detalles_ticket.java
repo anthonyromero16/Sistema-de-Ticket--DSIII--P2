@@ -140,7 +140,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
         BTNresuelto = new javax.swing.JButton();
         JCBprioridad = new javax.swing.JComboBox<>();
         JCBestado = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        BTNchat = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -200,10 +200,10 @@ JCBestado.setSelectedItem(rs.getString("estado"));
 
         JCBestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nuevo", "en proceso", "cancelado" }));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BTNchat.setText("chat");
+        BTNchat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BTNchatActionPerformed(evt);
             }
         });
 
@@ -249,7 +249,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(BTNAgregar_comentario)
                                         .addGap(54, 54, 54)
-                                        .addComponent(jButton1)
+                                        .addComponent(BTNchat)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(BTNresuelto)))
                                 .addGap(66, 66, 66))))
@@ -299,7 +299,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BTNAgregar_comentario)
                     .addComponent(BTNresuelto)
-                    .addComponent(jButton1))
+                    .addComponent(BTNchat))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -312,54 +312,15 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     }//GEN-LAST:event_TAcomentarioMouseClicked
 
     private void BTNAgregar_comentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAgregar_comentarioActionPerformed
-   
-       String comentario = TAcomentario.getText().trim();
-    if (comentario.isEmpty() || comentario.equals("Inserte su comentario aquí")) {
-        JOptionPane.showMessageDialog(this, "Debe escribir un comentario.");
-        return;
-    }
 
-    try {
-        // Guardar comentario en base de datos (ya debes tener este bloque)
-        // ...
-
-        // Obtener datos del técnico y del cliente
-        Connection conet = con.getConnection();
-        String sql = "SELECT u1.correo AS correo_tecnico, u1.clave AS clave_tecnico, u2.correo AS correo_cliente " +
-                     "FROM tickets t " +
-                     "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
-                     "JOIN usuarios u1 ON a.id_tecnico = u1.id_usuario " +
-                     "JOIN usuarios u2 ON t.id_cliente = u2.id_usuario " +
-                     "WHERE t.id_ticket = ?";
-        PreparedStatement pst = conet.prepareStatement(sql);
-        pst.setString(1, idTicket);
-        ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-            String correoTecnico = rs.getString("correo_tecnico");
-            String claveTecnico = rs.getString("clave_tecnico"); // Asegúrate que es la contraseña real
-            String correoCliente = rs.getString("correo_cliente");
-
-            String asunto = "Nuevo comentario en tu ticket #" + idTicket;
-            String mensaje = "Hola, se ha agregado un nuevo comentario a tu ticket #" + idTicket + ":\n\n" + comentario;
-
-            CorreoUtil.enviarCorreo(correoTecnico, claveTecnico, correoCliente, asunto, mensaje);
-
-            JOptionPane.showMessageDialog(this, "Comentario agregado y notificación enviada al cliente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontraron los correos para este ticket.");
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al agregar comentario o enviar correo: " + e.getMessage());
-    } 
-        
     }//GEN-LAST:event_BTNAgregar_comentarioActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      ChatDialog chat = new ChatDialog(idTicket); // Pasa el ID real del ticket
-chat.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void BTNchatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNchatActionPerformed
+chat dialog = new chat((java.awt.Frame) this.getParent(), true, idTicket);
+dialog.setVisible(true);    
+     //      ChatDialog chat = new ChatDialog(this, true, idTicket); // usa el constructor correcto
+   // chat.setVisible(true);
+    }//GEN-LAST:event_BTNchatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -409,6 +370,7 @@ chat.setVisible(true);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNAgregar_comentario;
+    private javax.swing.JButton BTNchat;
     private javax.swing.JButton BTNresuelto;
     private javax.swing.JComboBox<String> JCBestado;
     private javax.swing.JComboBox<String> JCBprioridad;
@@ -419,7 +381,6 @@ chat.setVisible(true);
     private javax.swing.JLabel LBLtecnico;
     private javax.swing.JLabel LBLtitulo;
     private javax.swing.JTextArea TAcomentario;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

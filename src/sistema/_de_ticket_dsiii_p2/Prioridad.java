@@ -41,7 +41,7 @@ public Prioridad(String idTecnico, String tituloVentana) {
      initComponents();
  
     this.idTecnico = idTecnico;
-    this.tituloVentana = tituloVentana; // ← ESTA LÍNEA FALTABA
+    this.tituloVentana = tituloVentana; // 
     setTitle(tituloVentana);
     
 
