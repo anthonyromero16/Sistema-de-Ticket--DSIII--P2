@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
 import java.io.FileOutputStream;
+import sistema._de_ticket_dsiii_p2.Soporte;
 
 /**
  *
@@ -55,8 +56,8 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         TBnombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        TBcontrasena = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        TBcontrasena = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,22 +82,26 @@ public class Inicio extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(274, 274, 274)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BTNiniciosesion)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(22, 22, 22))
-                        .addComponent(TBnombre)
-                        .addComponent(TBcontrasena)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(249, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(219, 219, 219))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(TBcontrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(274, 274, 274)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(BTNiniciosesion)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TBnombre)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(22, 22, 22))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,7 +125,7 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTNiniciosesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNiniciosesionActionPerformed
-Login();        
+        Login();        
     }//GEN-LAST:event_BTNiniciosesionActionPerformed
 
     /**
@@ -192,8 +197,14 @@ Login();
                 soporte.setLocationRelativeTo(null);
 
                 this.dispose(); // Cerrar el login
-            } else {
-                JOptionPane.showMessageDialog(null, "Acceso restringido. Este módulo es solo para técnicos.");
+            } else if ("cliente".equalsIgnoreCase(rol)) {
+                JOptionPane.showMessageDialog(null, "Bienvenido " + nombre);
+
+                
+                clientView cliente = new clientView(idUsuario);
+                cliente.setVisible(true);
+                cliente.setLocationRelativeTo(null);
+                this.dispose();                
             }
         } else {
             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
@@ -207,7 +218,7 @@ Login();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNiniciosesion;
-    private javax.swing.JTextField TBcontrasena;
+    private javax.swing.JPasswordField TBcontrasena;
     private javax.swing.JTextField TBnombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -6,7 +6,6 @@ package sistema._de_ticket_dsiii_p2;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;
-
 import conector.Conexion;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -29,8 +28,8 @@ import java.io.FileOutputStream;
  * @author antho
  */
 public class Detalles_ticket extends javax.swing.JDialog {
-Conexion con= new Conexion();
- Connection conet;
+    Conexion con= new Conexion();
+    Connection conet;
     DefaultTableModel modelo;
     Statement st;
     ResultSet rs;
@@ -38,12 +37,21 @@ Conexion con= new Conexion();
     /**
      * Creates new form Detalles_ticket
      */
-   private String idTicket; // este guarda el ID que recibes
-    public Detalles_ticket(java.awt.Frame parent, boolean modal, String idTicket) {
+
+    public String idTicket; 
+    public String rol;
+    public String idTecnico;
+    
+    
+public Detalles_ticket(java.awt.Frame parent, boolean modal, String idTicket, String rol, String idTecnico) {
     super(parent, modal);
     initComponents();
-
     this.idTicket = idTicket;
+  this.idTecnico = idTecnico;
+
+    this.rol = rol;
+
+   
 
     BTNAgregar_comentario.requestFocusInWindow();
 
@@ -200,7 +208,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
 
         JCBestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nuevo", "en proceso", "cancelado" }));
 
-        BTNchat.setText("chat");
+        BTNchat.setText("Chat");
         BTNchat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BTNchatActionPerformed(evt);
@@ -312,14 +320,58 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     }//GEN-LAST:event_TAcomentarioMouseClicked
 
     private void BTNAgregar_comentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAgregar_comentarioActionPerformed
+   
+       String comentario = TAcomentario.getText().trim();
+    if (comentario.isEmpty() || comentario.equals("Inserte su comentario aquí")) {
+        JOptionPane.showMessageDialog(this, "Debe escribir un comentario.");
+        return;
+    }
 
+    try {
+        // Guardar comentario en base de datos (ya debes tener este bloque)
+        // ...
+
+        // Obtener datos del técnico y del cliente
+        Connection conet = con.getConnection();
+        String sql = "SELECT u1.correo AS correo_tecnico, u1.clave AS clave_tecnico, u2.correo AS correo_cliente " +
+                     "FROM tickets t " +
+                     "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+                     "JOIN usuarios u1 ON a.id_tecnico = u1.id_usuario " +
+                     "JOIN usuarios u2 ON t.id_cliente = u2.id_usuario " +
+                     "WHERE t.id_ticket = ?";
+        PreparedStatement pst = conet.prepareStatement(sql);
+        pst.setString(1, idTicket);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String correoTecnico = rs.getString("correo_tecnico");
+            String claveTecnico = rs.getString("clave_tecnico"); // Asegúrate que es la contraseña real
+            String correoCliente = rs.getString("correo_cliente");
+
+            String asunto = "Nuevo comentario en tu ticket #" + idTicket;
+            String mensaje = "Hola, se ha agregado un nuevo comentario a tu ticket #" + idTicket + ":\n\n" + comentario;
+
+            
+
+            JOptionPane.showMessageDialog(this, "Comentario agregado y notificación enviada al cliente.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontraron los correos para este ticket.");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al agregar comentario o enviar correo: " + e.getMessage());
+    } 
+        
     }//GEN-LAST:event_BTNAgregar_comentarioActionPerformed
 
     private void BTNchatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNchatActionPerformed
-chat dialog = new chat((java.awt.Frame) this.getParent(), true, idTicket);
-dialog.setVisible(true);    
-     //      ChatDialog chat = new ChatDialog(this, true, idTicket); // usa el constructor correcto
-   // chat.setVisible(true);
+    Chat dialog = new Chat(null, true, idTicket, rol, idTecnico); // ← pasas los 3 valores
+    dialog.setVisible(true);
+
+    
+
+ 
+   
     }//GEN-LAST:event_BTNchatActionPerformed
 
     /**
@@ -350,24 +402,31 @@ dialog.setVisible(true);
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+   String idTicket = "5";         // ← simulado o real
+    String rol = "tecnico";        // ← simulado o real
+    String idTecnico = "123456";   // ← simulado o real
+
+    java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-    Detalles_ticket dialog = new Detalles_ticket(new javax.swing.JFrame(), true, "5"); // ✅ Aquí pasas los argumentos REALES
-    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-        @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
-            System.exit(0);
+            Detalles_ticket dialog = new Detalles_ticket(
+                new javax.swing.JFrame(), 
+                true, 
+                idTicket, 
+                rol, 
+                idTecnico
+            );
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         }
     });
-    dialog.setVisible(true);
-}
-        });
     }
 
     
-    
- 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNAgregar_comentario;
     private javax.swing.JButton BTNchat;

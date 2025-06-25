@@ -287,7 +287,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="BTNchat">
       <Properties>
-        <Property name="text" type="java.lang.String" value="chat"/>
+        <Property name="text" type="java.lang.String" value="Chat"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTNchatActionPerformed"/>

@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 
 public class Soporte extends javax.swing.JFrame {
 private String idTecnico;
+public String rol="tecnico";
+
+
 
     /**
      * Creates new form Soporte
@@ -23,8 +26,10 @@ private String idTecnico;
         public Soporte(String idTecnico) {
         initComponents();
         this.idTecnico = idTecnico;
-        
-                  Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
+      
+   
+                
+                  Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General",rol);
     verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
@@ -158,35 +163,35 @@ private String idTecnico;
     }//GEN-LAST:event_jMenu5ActionPerformed
 
     private void JMIticketsasignadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIticketsasignadosActionPerformed
-      Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets Asignados");
+      Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets Asignados",rol);
     verventanaticketsasignados.setTitle("Tickets Asignados"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIticketsasignadosActionPerformed
 
     private void JMIprioridadaltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadaltaActionPerformed
-       Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Alta Prioridad");
+       Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Alta Prioridad",rol);
     verventanaticketsasignados.setTitle("Tickets de Alta Prioridad"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadaltaActionPerformed
 
     private void JMIprioridadmediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadmediaActionPerformed
-          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Media");
+          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Media",rol);
     verventanaticketsasignados.setTitle("Tickets de Prioridad Media"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadmediaActionPerformed
 
     private void JMIprioridadbajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMIprioridadbajaActionPerformed
-            Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Baja");
+            Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets de Prioridad Baja",rol);
     verventanaticketsasignados.setTitle("Tickets de Prioridad Baja"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
     }//GEN-LAST:event_JMIprioridadbajaActionPerformed
 
     private void JMItodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMItodosActionPerformed
-          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General");
+          Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Tickets en General",rol);
     verventanaticketsasignados.setTitle("Tickets en General"); // Aquí modificas el título
     escritorio.add(verventanaticketsasignados);
     verventanaticketsasignados.setVisible(true);
@@ -210,12 +215,14 @@ public static void main(String args[]) {
         java.util.logging.Logger.getLogger(Soporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
 
-    // Prueba con una cédula válida como idTecnico (debes tenerlo en tu BD)
-    String idTecnico = "123456789"; // ← Usa aquí una cédula existente en tu tabla usuarios
+    
+    String idTecnico=""; 
 
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
             new Soporte(idTecnico).setVisible(true);
+         
+            
         }
     });
 }

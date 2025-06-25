@@ -36,12 +36,13 @@ public class Prioridad extends javax.swing.JInternalFrame {
 public String idTecnico;
 private String ticketSeleccionadoId = null;
 private String tituloVentana;
-
-public Prioridad(String idTecnico, String tituloVentana) {
+public String rol="";
+public Prioridad(String idTecnico, String tituloVentana,String rol) {
      initComponents();
  
     this.idTecnico = idTecnico;
     this.tituloVentana = tituloVentana; // 
+    this.rol = rol;
     setTitle(tituloVentana);
     
 
@@ -674,7 +675,8 @@ if (!hayResultados) {
 
     private void BTNverdetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNverdetallesActionPerformed
        if (ticketSeleccionadoId != null) {
-        Detalles_ticket dialog = new Detalles_ticket(null, true, ticketSeleccionadoId); // constructor con parámetro
+         
+      Detalles_ticket dialog = new Detalles_ticket(null, true, ticketSeleccionadoId, rol, idTecnico);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     } else {
