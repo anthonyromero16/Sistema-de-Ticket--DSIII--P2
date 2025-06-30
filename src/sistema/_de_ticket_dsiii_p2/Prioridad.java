@@ -52,6 +52,9 @@ public Prioridad(String idTecnico, String tituloVentana,String rol) {
     if ("Tickets de Prioridad Media".equalsIgnoreCase(tituloVentana)) { cargarTicketsAsignadosMediaPrioridad(this.idTecnico); }   
     if ("Tickets de Prioridad Baja".equalsIgnoreCase(tituloVentana)) {  cargarTicketsAsignadosBajaPrioridad(this.idTecnico);   }  
     if ("Tickets en General".equalsIgnoreCase(tituloVentana)) { cargarTicketsGeneral(this.idTecnico);  }
+    if ("Historial de Tickets".equalsIgnoreCase(tituloVentana)) { cargarHistorialTickets(this.idTecnico);BTNverdetalles.setVisible(false);  }
+    
+   
 }
 
     public void cargarTicketsAsignadosSinPrioridad(String idTecnico) {
@@ -196,7 +199,9 @@ public Prioridad(String idTecnico, String tituloVentana,String rol) {
     }
 }
     
-       public void cargarTicketsGeneral(String idTecnico) {
+     
+      
+        public void cargarTicketsGeneral(String idTecnico) {
     conet = con.getConnection();
 
     String sql =  "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente\n" +
@@ -204,7 +209,43 @@ public Prioridad(String idTecnico, String tituloVentana,String rol) {
 "JOIN asignaciones a ON t.id_ticket = a.id_ticket\n" +
 "JOIN usuarios u ON t.id_cliente = u.id_usuario\n" +
 "WHERE a.id_tecnico = ?\n" +
-"  AND t.prioridad IN ('alta', 'media', 'baja', 'ninguna')";
+"  AND t.estado IN ('en espera','en proceso')";
+
+    try {
+        PreparedStatement pst = conet.prepareStatement(sql);  // ← aquí usamos PreparedStatement
+        pst.setString(1, idTecnico);  // ← pasamos el id del técnico
+
+        rs = pst.executeQuery();
+
+        String[] columnas = {"ID", "Título", "Estado", "Fecha", "Cliente"};
+        modelo = new DefaultTableModel(null, columnas);
+        Object[] fila = new Object[5];
+
+        while (rs.next()) {
+            fila[0] = rs.getInt("id_ticket");
+            fila[1] = rs.getString("titulo");
+            fila[2] = rs.getString("estado");
+            fila[3] = rs.getTimestamp("fecha_creacion");
+            fila[4] = rs.getString("cliente");
+            modelo.addRow(fila);
+        }
+
+        TBLprioridad.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar los tickets: " + e.getMessage());
+    }
+}
+      
+       public void cargarHistorialTickets(String idTecnico) {
+    conet = con.getConnection();
+
+    String sql =  "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente\n" +
+"FROM tickets t\n" +
+"JOIN asignaciones a ON t.id_ticket = a.id_ticket\n" +
+"JOIN usuarios u ON t.id_cliente = u.id_usuario\n" +
+"WHERE a.id_tecnico = ?\n" +
+"  AND t.estado IN ('cancelado', 'resuelto')";
 
     try {
         PreparedStatement pst = conet.prepareStatement(sql);  // ← aquí usamos PreparedStatement

@@ -3,10 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package sistema._de_ticket_dsiii_p2;
-
+import conector.RespaldoBD;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 /**
  *
@@ -54,6 +55,8 @@ public String rol="tecnico";
         JMItodos = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        JMHistorial = new javax.swing.JMenu();
+        respaldarBD = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Tickets - TEKNOSIA");
@@ -141,6 +144,22 @@ public String rol="tecnico";
 
         jMenuBar1.add(jMenu6);
 
+        JMHistorial.setText("Historial");
+        JMHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JMHistorialMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(JMHistorial);
+
+        respaldarBD.setText("Respaldar BD");
+        respaldarBD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                respaldarBDMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(respaldarBD);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,6 +219,17 @@ public String rol="tecnico";
         
     }//GEN-LAST:event_JMItodosActionPerformed
 
+    private void JMHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JMHistorialMouseClicked
+              Prioridad verventanaticketsasignados = new Prioridad(idTecnico, "Historial de Tickets",rol);
+    verventanaticketsasignados.setTitle("Historial de Tickets"); // Aquí modificas el título
+    escritorio.add(verventanaticketsasignados);
+    verventanaticketsasignados.setVisible(true);
+    }//GEN-LAST:event_JMHistorialMouseClicked
+
+    private void respaldarBDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_respaldarBDMouseClicked
+    RespaldoBD.RespaldoBD();
+    }//GEN-LAST:event_respaldarBDMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -229,6 +259,7 @@ public static void main(String args[]) {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu JMHistorial;
     private javax.swing.JMenuItem JMIprioridadalta;
     private javax.swing.JMenuItem JMIprioridadbaja;
     private javax.swing.JMenuItem JMIprioridadmedia;
@@ -241,5 +272,6 @@ public static void main(String args[]) {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenu respaldarBD;
     // End of variables declaration//GEN-END:variables
 }
