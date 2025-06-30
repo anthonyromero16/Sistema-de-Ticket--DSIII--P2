@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
 import java.io.FileOutputStream;
+import sistema._de_ticket_dsiii_p2.Detalles_ticket;
 
 /**
  *
@@ -198,11 +199,12 @@ public Prioridad(String idTecnico, String tituloVentana,String rol) {
        public void cargarTicketsGeneral(String idTecnico) {
     conet = con.getConnection();
 
-    String sql = "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente " +
-                 "FROM tickets t " +
-                 "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
-                 "JOIN usuarios u ON t.id_cliente = u.id_usuario " +
-                 "WHERE a.id_tecnico = ? ";
+    String sql =  "SELECT t.id_ticket, t.titulo, t.estado, t.fecha_creacion, u.nombre AS cliente\n" +
+"FROM tickets t\n" +
+"JOIN asignaciones a ON t.id_ticket = a.id_ticket\n" +
+"JOIN usuarios u ON t.id_cliente = u.id_usuario\n" +
+"WHERE a.id_tecnico = ?\n" +
+"  AND t.prioridad IN ('alta', 'media', 'baja', 'ninguna')";
 
     try {
         PreparedStatement pst = conet.prepareStatement(sql);  // ← aquí usamos PreparedStatement
