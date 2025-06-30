@@ -43,15 +43,15 @@ SimpleAttributeSet estiloCliente;
 SimpleAttributeSet estiloMensaje;
 private String idTicket;
 private String rol;
-private String idTecnico;
+private String idUsuario;
 
-   public Chat(java.awt.Frame parent, boolean modal, String idTicket,String rol,String idTecnico) {
+   public Chat(java.awt.Frame parent, boolean modal, String idTicket,String rol,String idUsuario) {
     super(parent, modal);
     initComponents();
     this.idTicket = idTicket;
      this.rol = rol;
-       this.idTecnico = idTecnico;
-    
+       this.idUsuario = idUsuario;
+       
     
     doc = JTPchat.getStyledDocument();
     estiloTecnico = new SimpleAttributeSet();
@@ -209,100 +209,115 @@ chatTecnico();
 }
 
     
- private void cargarMensajesChat(String idTicket) {
+private void cargarMensajesChat(String idTicket) {
     try {
         Connection conn = con.getConnection();
-        String sql = "SELECT emisor_id, mensaje, fecha_envio FROM mensajes_chat WHERE id_ticket = ? ORDER BY fecha_envio ASC";
-        PreparedStatement pst = conn.prepareStatement(sql); // <- Faltaba esta línea antes del execute
+        String sql = "SELECT u.nombre AS nombre_emisor, m.mensaje, m.fecha_envio " +
+                     "FROM mensajes_chat m " +
+                     "JOIN usuarios u ON m.emisor_id = u.id_usuario " +
+                     "WHERE m.id_ticket = ? " +
+                     "ORDER BY m.fecha_envio ASC";
+
+        PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, idTicket);
         ResultSet rs = pst.executeQuery();
 
         while (rs.next()) {
-            String remitente = rs.getString("emisor_id");
+            String nombreEmisor = rs.getString("nombre_emisor");
             String mensaje = rs.getString("mensaje");
             String fechaHora = rs.getString("fecha_envio");
 
-            // Aquí puedes comparar con la cédula del técnico logueado si quieres
-            agregarMensajeEnPantalla(remitente, mensaje, fechaHora);
+            agregarMensajeEnPantalla(nombreEmisor, mensaje, fechaHora);
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar el chat: " + e.getMessage());
     }
 }
 
+
  
  public void chatTecnico() {
     String mensaje = JTmensaje.getText().trim();
-    if (!mensaje.isEmpty()) {
-        String fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    if (mensaje.isEmpty()) return;
 
-        agregarMensajeEnPantalla(rol, mensaje, fechaHora); // Usar rol para mostrar quién manda
-        JTmensaje.setText("");
+    String fechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    agregarMensajeEnPantalla(rol, mensaje, fechaHora); // Mostrar en pantalla
+    JTmensaje.setText(""); // Limpiar campo de entrada
 
-        try {
-            conet = con.getConnection();
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
 
-            String emisor_id = null;
-            String receptor_id = null;
+    try {
+        conn = con.getConnection();
+        String emisor_id = null;
+        String receptor_id = null;
 
-            if ("tecnico".equalsIgnoreCase(rol)) {
-                emisor_id = idTecnico; // el técnico es el emisor
-                
-                // obtener cliente asignado al ticket
-                String sqlCliente = "SELECT id_cliente FROM tickets WHERE id_ticket = ?";
-                PreparedStatement pstCliente = conet.prepareStatement(sqlCliente);
-                pstCliente.setString(1, idTicket);
-                ResultSet rsCliente = pstCliente.executeQuery();
-                if (rsCliente.next()) {
-                    receptor_id = rsCliente.getString("id_cliente");
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se encontró el cliente para el ticket.");
-                    return;
-                }
-                rsCliente.close();
-                pstCliente.close();
+        if ("tecnico".equalsIgnoreCase(rol)) {
+            emisor_id = idUsuario; 
 
-            } else if ("cliente".equalsIgnoreCase(rol)) {
-                // emisor es el cliente que corresponde al ticket
-                String sqlCliente = "SELECT id_cliente, a.id_tecnico FROM tickets t JOIN asignaciones a ON t.id_ticket = a.id_ticket WHERE t.id_ticket = ?";
-                PreparedStatement pstCliente = conet.prepareStatement(sqlCliente);
-                pstCliente.setString(1, idTicket);
-                ResultSet rsCliente = pstCliente.executeQuery();
-                if (rsCliente.next()) {
-                    emisor_id = rsCliente.getString("id_cliente"); // cliente emisor
-                    receptor_id = rsCliente.getString("id_tecnico"); // técnico receptor
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se encontró información para el ticket.");
-                    return;
-                }
-                rsCliente.close();
-                pstCliente.close();
+            // Obtener cliente del ticket
+            String sql = "SELECT id_cliente FROM tickets WHERE id_ticket = ?";
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, idTicket);
+            rs = pst.executeQuery();
 
+            if (rs.next()) {
+                receptor_id = rs.getString("id_cliente");
             } else {
-                JOptionPane.showMessageDialog(this, "Rol no soportado para chat.");
+                JOptionPane.showMessageDialog(this, "No se encontró el cliente para el ticket.");
                 return;
             }
+        } else if ("cliente".equalsIgnoreCase(rol)) {
+         String sql = "SELECT t.id_cliente, a.id_tecnico " +
+             "FROM tickets t " +
+             "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
+             "WHERE t.id_ticket = ?";
 
-            // Insertar mensaje
-            String sql = "INSERT INTO mensajes_chat (id_ticket, emisor_id, receptor_id, mensaje, fecha_envio) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pst = conet.prepareStatement(sql);
-            pst.setString(1, idTicket);
-            pst.setString(2, emisor_id);
-            pst.setString(3, receptor_id);
-            pst.setString(4, mensaje);
-            pst.setString(5, fechaHora);
-            pst.executeUpdate();
+pst = conn.prepareStatement(sql);
+pst.setString(1, idTicket);
+rs = pst.executeQuery();
 
-            pst.close();
-            conet.close();
+if (rs.next()) {
+    emisor_id = rs.getString("id_cliente");     // cliente que creó el ticket
+    receptor_id = rs.getString("id_tecnico");   // técnico asignado
+} else {
+    JOptionPane.showMessageDialog(this, "No se encontró información para el ticket.");
+    return;
+}
+        } else {
+            JOptionPane.showMessageDialog(this, "Rol no soportado para chat.");
+            return;
+        }
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al guardar mensaje: " + ex.getMessage());
+        // Cerrar recursos antes de nuevo prepareStatement
+        if (rs != null) rs.close();
+        if (pst != null) pst.close();
+
+        // Insertar mensaje en la base de datos
+        String insertSql = "INSERT INTO mensajes_chat (id_ticket, emisor_id, receptor_id, mensaje, fecha_envio) VALUES (?, ?, ?, ?, ?)";
+        pst = conn.prepareStatement(insertSql);
+        pst.setString(1, idTicket);
+        pst.setString(2, emisor_id);
+        pst.setString(3, receptor_id);
+        pst.setString(4, mensaje);
+        pst.setString(5, fechaHora);
+        pst.executeUpdate();
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al guardar mensaje: " + ex.getMessage());
+    } finally {
+        // Cerrar recursos correctamente
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cerrar la conexión: " + e.getMessage());
         }
     }
 }
 
-    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
