@@ -50,7 +50,7 @@ public Detalles_ticket(java.awt.Frame parent, boolean modal, String idTicket, St
   this.idTecnico = idTecnico;
 
     this.rol = rol;
-
+cargarComentariosTicket();
    
 
     BTNAgregar_comentario.requestFocusInWindow();
@@ -149,6 +149,8 @@ JCBestado.setSelectedItem(rs.getString("estado"));
         JCBprioridad = new javax.swing.JComboBox<>();
         JCBestado = new javax.swing.JComboBox<>();
         BTNchat = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        LBLcomentario = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -209,9 +211,9 @@ JCBestado.setSelectedItem(rs.getString("estado"));
             }
         });
 
-        JCBprioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna", "alta", "media", "baja" }));
+        JCBprioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna", "alta", "media", "baja", " " }));
 
-        JCBestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nuevo", "en proceso", "resuelto", "cancelado" }));
+        JCBestado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "en espera", "en proceso", "resuelto", "cancelado" }));
 
         BTNchat.setText("Chat");
         BTNchat.addActionListener(new java.awt.event.ActionListener() {
@@ -220,51 +222,59 @@ JCBestado.setSelectedItem(rs.getString("estado"));
             }
         });
 
+        jScrollPane2.setBackground(new java.awt.Color(242, 242, 242));
+
+        LBLcomentario.setEditable(false);
+        LBLcomentario.setColumns(20);
+        LBLcomentario.setRows(5);
+        jScrollPane2.setViewportView(LBLcomentario);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(LBLdescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(LBLid_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(LBLtecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(LBLcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(LBLtitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(LBLfecha_creacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(JCBprioridad, 0, 119, Short.MAX_VALUE)))
-                                .addGap(159, 159, 159))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(BTNAgregar_comentario)
-                                .addGap(54, 54, 54)
-                                .addComponent(BTNchat)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BTNresuelto)))
-                        .addGap(242, 242, 242))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(LBLdescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(LBLid_ticket, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(LBLtecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(LBLcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(LBLtitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(LBLfecha_creacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(JCBprioridad, 0, 119, Short.MAX_VALUE)
+                                            .addComponent(JCBestado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(159, 159, 159))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(BTNAgregar_comentario)
+                                        .addGap(54, 54, 54)
+                                        .addComponent(BTNchat)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(BTNresuelto)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -293,7 +303,7 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                     .addComponent(jLabel6)
                     .addComponent(JCBprioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(JCBestado, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -311,7 +321,9 @@ JCBestado.setSelectedItem(rs.getString("estado"));
                     .addComponent(BTNAgregar_comentario)
                     .addComponent(BTNresuelto)
                     .addComponent(BTNchat))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -325,11 +337,8 @@ JCBestado.setSelectedItem(rs.getString("estado"));
     private void BTNAgregar_comentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAgregar_comentarioActionPerformed
    
        String comentario = TAcomentario.getText().trim();
-    if (comentario.isEmpty() || comentario.equals("Inserte su comentario aquí")) {
-        JOptionPane.showMessageDialog(this, "Debe escribir un comentario.");
-        return;
-    }
-
+  
+comentario();
   
     }//GEN-LAST:event_BTNAgregar_comentarioActionPerformed
 
@@ -396,44 +405,7 @@ GuardarActualizacion();
     });
     }
 
-    public void comentar(){
     
-      String comentario = TAcomentario.getText().trim();
-      
-      try {
-     
-        Connection conet = con.getConnection();
-        String sql = "SELECT u1.correo AS correo_tecnico, u1.clave AS clave_tecnico, u2.correo AS correo_cliente " +
-                     "FROM tickets t " +
-                     "JOIN asignaciones a ON t.id_ticket = a.id_ticket " +
-                     "JOIN usuarios u1 ON a.id_tecnico = u1.id_usuario " +
-                     "JOIN usuarios u2 ON t.id_cliente = u2.id_usuario " +
-                     "WHERE t.id_ticket = ?";
-        PreparedStatement pst = conet.prepareStatement(sql);
-        pst.setString(1, idTicket);
-        ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-            String correoTecnico = rs.getString("correo_tecnico");
-            String claveTecnico = rs.getString("clave_tecnico"); // Asegúrate que es la contraseña real
-            String correoCliente = rs.getString("correo_cliente");
-
-            String asunto = "Nuevo comentario en tu ticket #" + idTicket;
-            String mensaje = "Hola, se ha agregado un nuevo comentario a tu ticket #" + idTicket + ":\n\n" + comentario;
-
-            
-
-            JOptionPane.showMessageDialog(this, "Comentario agregado y notificación enviada al cliente.");
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontraron los correos para este ticket.");
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al agregar comentario o enviar correo: " + e.getMessage());
-    } 
-        
-    
-    }
     
     public void GuardarActualizacion() {
     String nuevoEstado = JCBestado.getSelectedItem().toString();
@@ -470,6 +442,100 @@ GuardarActualizacion();
         }
     }
 }
+    
+public void comentario() {
+    String comentarioTexto = TAcomentario.getText().trim();
+
+    if (comentarioTexto.isEmpty() || comentarioTexto.equals("Inserte su comentario aquí")) {
+        JOptionPane.showMessageDialog(this, "Debe escribir un comentario válido.");
+        return;
+    }
+
+    String estado = JCBestado.getSelectedItem().toString().toLowerCase().trim();
+    String prioridad = JCBprioridad.getSelectedItem().toString().toLowerCase().trim();
+
+    Connection conn = con.getConnection();
+
+    try {
+        // 1. Insertar en seguimiento_tickets
+        String sql = "INSERT INTO seguimiento_tickets (id_ticket, id_usuario, comentario, estado, prioridad) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, idTicket);
+        pst.setString(2, idTecnico);
+        pst.setString(3, comentarioTexto);
+        pst.setString(4, estado);
+        pst.setString(5, prioridad);
+
+        int result = pst.executeUpdate();
+
+        if (result > 0) {
+            // 2. Obtener comentarios actuales
+            String comentarioActual = LBLcomentario.getText();
+            if (comentarioActual.equals("-------------------------------")) {
+                comentarioActual = "";
+            }
+
+            // 3. Agregar nuevo comentario con salto de línea si ya había uno
+            if (!comentarioActual.isEmpty()) {
+                comentarioActual += "\n";
+            }
+            comentarioActual += "comentario: " + comentarioTexto;
+
+            // 4. Mostrar en el área
+            LBLcomentario.setText(comentarioActual);
+
+            // 5. Resetear el campo de entrada
+            TAcomentario.setText("Inserte su comentario aquí");
+            TAcomentario.setForeground(Color.GRAY);
+
+            JOptionPane.showMessageDialog(this, "Comentario agregado correctamente.");
+        }
+
+        pst.close();
+        conn.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al agregar comentario: " + e.getMessage());
+    }
+}
+
+private void cargarComentariosTicket() {
+    Connection conn = con.getConnection();
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
+    try {
+        String sql = "SELECT comentario FROM seguimiento_tickets WHERE id_ticket = ?";
+        pst = conn.prepareStatement(sql);
+        pst.setString(1, idTicket);
+
+        rs = pst.executeQuery();
+
+        StringBuilder comentariosTotales = new StringBuilder();
+        while (rs.next()) {
+            String c = rs.getString("comentario");
+
+            if (comentariosTotales.length() > 0) {
+                comentariosTotales.append("\n"); // salto de línea solo si ya hay algo
+            }
+
+            comentariosTotales.append("comentario: ").append(c);
+        }
+
+        LBLcomentario.setText(comentariosTotales.toString());
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar comentarios: " + e.getMessage());
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (conn != null) conn.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cerrar conexión: " + ex.getMessage());
+        }
+    }
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNAgregar_comentario;
@@ -478,6 +544,7 @@ GuardarActualizacion();
     private javax.swing.JComboBox<String> JCBestado;
     private javax.swing.JComboBox<String> JCBprioridad;
     private javax.swing.JLabel LBLcliente;
+    private javax.swing.JTextArea LBLcomentario;
     private javax.swing.JLabel LBLdescripcion;
     private javax.swing.JLabel LBLfecha_creacion;
     private javax.swing.JLabel LBLid_ticket;
@@ -494,5 +561,6 @@ GuardarActualizacion();
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
